@@ -46,3 +46,22 @@ ORDER BY 1 DESC;
 
 SELECT *
 FROM retiring_titles;
+
+-- Query to create a Mentorship Eligibility table that holds the employees who are eligible to participate in a mentorship program.
+
+SELECT DISTINCT ON (e.emp_no) e.emp_no,
+                   e.first_name,
+                   e.last_name,
+                   e.birth_date,
+                   de.from_date,
+                   de.to_date,
+                   t.title INTO mentorship_eligibilty
+FROM employees AS e
+LEFT JOIN titles AS t ON e.emp_no = t.emp_no
+INNER JOIN dept_emp as de ON e.emp_no = de.emp_no
+WHERE de.to_date >= CURRENT_DATE
+    AND birth_date between '1965-01-01' and '1965-12-31'
+ORDER BY e.emp_no -- Check table
+
+SELECT *
+FROM mentorship_eligibilty
