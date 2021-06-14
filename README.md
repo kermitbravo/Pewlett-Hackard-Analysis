@@ -62,9 +62,10 @@ ON d.dept_no = de.dept_no
 GROUP BY e.emp_no, de.dept_name
 
 -- Count by department-on-department retirement table
-select dept_name, count(*) from department_retirement
-group by 1
-order by 2 desc;
+SELECT dept_name, COUNT(*) 
+FROM department_retirement
+GROUP BY 1
+ORDER BY 2 DESC;
 ```
 - How many $ will be available after these employees retire. This type of query might be useful in case Bobby and his manager need to put together a plan to ramp up on mentoring and onboarding new employees.
 
