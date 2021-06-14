@@ -45,5 +45,34 @@ With the information collected above we can answer the following questions:
 
 ### Additional queries or tables that may provide more insight into the upcoming "silver tsunami."
 
-- Retiring within the next 5 years
-- Employees that have been with the company for over x years
+- Employees nearing retirement by department which would help them assess the impact on such departments. 
+
+  - This points out for example that the Development department would be the most impacted by the "Silver Tsunami". 
+   - With 24,346 positions becoming available, followed by Production with 19,550 positions.
+
+```SQL
+-- Create dept count table
+SELECT DISTINCT ON (e.emp_no) de.dept_name, COUNT(*) 
+INTO department_retirement
+FROM unique_retirement_titles AS e
+INNER join dept_emp AS d
+ON e.emp_no = d.emp_no
+INNER JOIN departments AS de
+ON d.dept_no = de.dept_no
+GROUP BY e.emp_no, de.dept_name
+
+-- Count by department-on-department retirement table
+select dept_name, count(*) from department_retirement
+group by 1
+order by 2 desc;
+```
+- How many $ will be available after these employees retire. This type of query might be useful in case Bobby and his manager need to put together a plan to ramp up on mentoring and onboarding new employees.
+
+With this query we can observe that $4,782,884,264.00 will become "available".
+
+```SQL
+SELECT cast(SUM(salary) as money) as amount 
+FROM unique_retirement_titles AS e
+INNER join salaries AS s
+ON e.emp_no = s.emp_no
+```
